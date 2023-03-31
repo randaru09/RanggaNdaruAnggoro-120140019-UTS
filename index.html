@@ -1,0 +1,3167 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        #map {
+            width: 100%;
+            height: 619px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="data/ADMINISTRASIKECAMATAN_AR_50K_1.js"></script>
+        <script src="data/JALAN_LN_50K_2.js"></script>
+        <script src="data/PEMERINTAHAN_PT_50K_3.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-5.661272890109848,105.2027032997531],[-4.793667808092091,106.27139027274086]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_GoogleSatellite_0');
+        map.getPane('pane_GoogleSatellite_0').style.zIndex = 400;
+        var layer_GoogleSatellite_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleSatellite_0',
+            opacity: 1.0,
+            attribution: '<a href="https://www.google.at/permissions/geoguidelines/attr-guide.html">Map data ©2015 Google</a>',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 20
+        });
+        layer_GoogleSatellite_0;
+        map.addLayer(layer_GoogleSatellite_0);
+        function pop_ADMINISTRASIKECAMATAN_AR_50K_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KDPPUM'] !== null ? autolinker.link(feature.properties['KDPPUM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAMOBJ'] !== null ? autolinker.link(feature.properties['NAMOBJ'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['REMARK'] !== null ? autolinker.link(feature.properties['REMARK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KDPBPS'] !== null ? autolinker.link(feature.properties['KDPBPS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCODE'] !== null ? autolinker.link(feature.properties['FCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LUASWH'] !== null ? autolinker.link(feature.properties['LUASWH'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UUPP'] !== null ? autolinker.link(feature.properties['UUPP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SRS_ID'] !== null ? autolinker.link(feature.properties['SRS_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LCODE'] !== null ? autolinker.link(feature.properties['LCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['METADATA'] !== null ? autolinker.link(feature.properties['METADATA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KDEBPS'] !== null ? autolinker.link(feature.properties['KDEBPS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KDEPUM'] !== null ? autolinker.link(feature.properties['KDEPUM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KDCBPS'] !== null ? autolinker.link(feature.properties['KDCBPS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KDCPUM'] !== null ? autolinker.link(feature.properties['KDCPUM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KDBBPS'] !== null ? autolinker.link(feature.properties['KDBBPS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KDBPUM'] !== null ? autolinker.link(feature.properties['KDBPUM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['WADMKD'] !== null ? autolinker.link(feature.properties['WADMKD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['WIADKD'] !== null ? autolinker.link(feature.properties['WIADKD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['WADMKC'] !== null ? autolinker.link(feature.properties['WADMKC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['WIADKC'] !== null ? autolinker.link(feature.properties['WIADKC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['WADMKK'] !== null ? autolinker.link(feature.properties['WADMKK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['WIADKK'] !== null ? autolinker.link(feature.properties['WIADKK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['WADMPR'] !== null ? autolinker.link(feature.properties['WADMPR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['WIADPR'] !== null ? autolinker.link(feature.properties['WIADPR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TIPADM'] !== null ? autolinker.link(feature.properties['TIPADM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(feature.properties['Shape_Leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Area'] !== null ? autolinker.link(feature.properties['Shape_Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ADMINISTRASIKECAMATAN_AR_50K_1_0(feature) {
+            switch(String(feature.properties['NAMOBJ'])) {
+                case 'BANDARSRIBHAWONO':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(67,221,64,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'BANDARSURABAYA':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(121,205,201,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'BATANGHARI':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(47,60,200,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'BATANGHARINUBAN':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(139,56,217,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'BRAJASELEBAH':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(39,221,191,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'BUMIAGUNG':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(225,160,29,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'CANDIPURO':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(70,127,239,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'DENTETELADAS':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(37,31,236,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'GUNUNGPELINDUNG':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(233,41,211,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'JABUNG':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(214,199,60,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'JATIAGUNG':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(207,235,47,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KATIBUNG':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(232,71,98,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KOTAGAJAH':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(155,102,239,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'LABUHANMARINGGAI':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(210,18,239,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'LABUHANRATU':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(119,239,161,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'MARGASEKAMPUNG':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(205,207,101,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'MARGATIGA':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(179,238,85,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'MATARAMBARU':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(126,207,75,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'MELINTING':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(143,235,129,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'MERBAUMATARAM':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(210,64,54,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'METRO PUSAT':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(121,231,174,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'METRO SELATAN':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(106,175,207,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'METRO TIMUR':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(232,73,121,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'METRO UTARA':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(71,220,178,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'METROKIBANG':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(27,216,229,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'NATAR':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(226,58,128,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'PALAS':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(30,110,208,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'PASIRSAKTI':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(47,238,66,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'PEKALONGAN':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(206,97,102,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'PUNGGUR':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(221,153,105,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'PURBOLINGGO':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(229,178,116,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'PUTRARUMBIA':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(141,125,230,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'RAMAN UTARA':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(19,187,229,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'RUMBIA':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(187,96,240,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'SEKAMPUNG':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(233,195,58,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'SEKAMPUNGUDIK':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(24,206,133,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'SEPUTIHBANYAK':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(80,205,107,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'SEPUTIHRAMAN':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(151,128,216,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'SEPUTIHSURABAYA':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(55,88,217,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'SRAGI':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(214,44,135,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'SUKADANA':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,15,172,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'TANJUNGBINTANG':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(221,139,120,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'TANJUNGSARI':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(167,205,63,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'TEGINENENG':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(116,207,83,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'TRIMURJO':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(204,122,87,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'WAWAYKARYA':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(222,39,158,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'WAYBUNGUR':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(122,180,224,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'WAYJEPARA':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(199,126,223,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'WAYSULAN':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(234,58,237,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'NULL':
+                    return {
+                pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(161,202,120,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_ADMINISTRASIKECAMATAN_AR_50K_1');
+        map.getPane('pane_ADMINISTRASIKECAMATAN_AR_50K_1').style.zIndex = 401;
+        map.getPane('pane_ADMINISTRASIKECAMATAN_AR_50K_1').style['mix-blend-mode'] = 'normal';
+        var layer_ADMINISTRASIKECAMATAN_AR_50K_1 = new L.geoJson(json_ADMINISTRASIKECAMATAN_AR_50K_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_ADMINISTRASIKECAMATAN_AR_50K_1',
+            layerName: 'layer_ADMINISTRASIKECAMATAN_AR_50K_1',
+            pane: 'pane_ADMINISTRASIKECAMATAN_AR_50K_1',
+            onEachFeature: pop_ADMINISTRASIKECAMATAN_AR_50K_1,
+            style: style_ADMINISTRASIKECAMATAN_AR_50K_1_0,
+        });
+        bounds_group.addLayer(layer_ADMINISTRASIKECAMATAN_AR_50K_1);
+        map.addLayer(layer_ADMINISTRASIKECAMATAN_AR_50K_1);
+        function pop_JALAN_LN_50K_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAMRJL'] !== null ? autolinker.link(feature.properties['NAMRJL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KONRJL'] !== null ? autolinker.link(feature.properties['KONRJL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MATRJL'] !== null ? autolinker.link(feature.properties['MATRJL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FGSRJL'] !== null ? autolinker.link(feature.properties['FGSRJL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UTKRJL'] !== null ? autolinker.link(feature.properties['UTKRJL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TOLRJL'] !== null ? autolinker.link(feature.properties['TOLRJL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['WLYRJL'] !== null ? autolinker.link(feature.properties['WLYRJL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AUTRJL'] !== null ? autolinker.link(feature.properties['AUTRJL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KLSRJL'] !== null ? autolinker.link(feature.properties['KLSRJL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SPCRJL'] !== null ? autolinker.link(feature.properties['SPCRJL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['JPARJL'] !== null ? autolinker.link(feature.properties['JPARJL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ARHRJL'] !== null ? autolinker.link(feature.properties['ARHRJL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STARJL'] !== null ? autolinker.link(feature.properties['STARJL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KLLRJL'] !== null ? autolinker.link(feature.properties['KLLRJL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MEDRJL'] !== null ? autolinker.link(feature.properties['MEDRJL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LOCRJL'] !== null ? autolinker.link(feature.properties['LOCRJL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['JARRJL'] !== null ? autolinker.link(feature.properties['JARRJL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCODE'] !== null ? autolinker.link(feature.properties['FCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['REMARK'] !== null ? autolinker.link(feature.properties['REMARK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SRS_ID'] !== null ? autolinker.link(feature.properties['SRS_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LCODE'] !== null ? autolinker.link(feature.properties['LCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['METADATA'] !== null ? autolinker.link(feature.properties['METADATA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SHAPE_Leng'] !== null ? autolinker.link(feature.properties['SHAPE_Leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_JALAN_LN_50K_2_0() {
+            return {
+                pane: 'pane_JALAN_LN_50K_2',
+                opacity: 1,
+                color: 'rgba(217,217,217,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_JALAN_LN_50K_2');
+        map.getPane('pane_JALAN_LN_50K_2').style.zIndex = 402;
+        map.getPane('pane_JALAN_LN_50K_2').style['mix-blend-mode'] = 'normal';
+        var layer_JALAN_LN_50K_2 = new L.geoJson(json_JALAN_LN_50K_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_JALAN_LN_50K_2',
+            layerName: 'layer_JALAN_LN_50K_2',
+            pane: 'pane_JALAN_LN_50K_2',
+            onEachFeature: pop_JALAN_LN_50K_2,
+            style: style_JALAN_LN_50K_2_0,
+        });
+        bounds_group.addLayer(layer_JALAN_LN_50K_2);
+        map.addLayer(layer_JALAN_LN_50K_2);
+        function pop_PEMERINTAHAN_PT_50K_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAMOBJ'] !== null ? autolinker.link(feature.properties['NAMOBJ'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FGSGOV'] !== null ? autolinker.link(feature.properties['FGSGOV'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LUAS'] !== null ? autolinker.link(feature.properties['LUAS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCODE'] !== null ? autolinker.link(feature.properties['FCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['REMARK'] !== null ? autolinker.link(feature.properties['REMARK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SRS_ID'] !== null ? autolinker.link(feature.properties['SRS_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LCODE'] !== null ? autolinker.link(feature.properties['LCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['METADATA'] !== null ? autolinker.link(feature.properties['METADATA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_PEMERINTAHAN_PT_50K_3_0(feature) {
+            switch(String(feature.properties['NAMOBJ'])) {
+                case 'Aula Kantor Bupati Lampung Timur':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(210,72,215,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Balai Benih Ikan Way Curup':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(122,129,230,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Balai Nabangbaru':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(85,204,172,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Balai Penyuluhan Pertanian':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(133,84,201,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Balai Sumbermarga':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(203,80,119,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Bappeda Lampung Timur':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(111,204,125,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'BPN Lampung Timur':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(85,210,219,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'BPS Sukadana Ilir':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(14,200,237,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Departemen Agama Lampung Timur':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(41,77,211,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Gedung PKK':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(81,182,210,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Babinsa Purwosembodo':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(99,228,204,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Badan Lingkungan Hidup Mangrove Center':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(153,24,228,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Balai Penyuluhan Pertanian':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(32,165,237,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor BP3K Batanghari':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(182,85,220,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor BP3K Bumiagung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(115,76,200,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor BP3K Karyabasuki':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(42,45,221,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor BP3K Kecamatan Matarambaru':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(151,105,204,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor BP3K Margatiga':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(15,138,239,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor BP3K Metrokibang':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(208,163,114,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor BP3K Sekampung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(124,211,81,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor BP3K Sekampungudik':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(220,47,177,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor BPU Margatiga':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(222,25,153,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Bupati Lampung Timur':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,155,220,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Cabang Dinas Pendidikan dasar':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(234,123,101,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Bandarsribhawono':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(127,216,209,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Batanghari':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(111,237,155,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Batangharinuban':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(59,221,216,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Brajaselebah':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(188,111,211,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Bumiagung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(72,200,65,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Gunungpelindung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(218,153,56,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Jabung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(43,27,211,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Labuhanmaringgai':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(216,193,102,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Labuhanratu':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(226,117,77,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Margasekampung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(98,204,138,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Margatiga':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(79,101,214,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Matarambaru':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(223,65,53,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Melinting':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(74,237,56,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Metrokibang':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(94,224,120,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Pasirsakti':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(47,217,98,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Pekalongan':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(112,140,218,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Purbolinggo':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(116,216,169,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Raman Utara':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(177,200,29,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Sekampung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(227,216,17,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Sekampungudik':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(167,201,121,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Sukadana':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(234,50,71,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Wawaykarya':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,70,103,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Waybungur':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(45,64,209,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Camat Wayjepara':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(166,236,113,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Departemen Perhubungan':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(209,97,192,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Dewan Perwakilan Rakyat Daerah Lampung Timur':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(53,211,129,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Dinas Pekerjaan Umum':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(235,139,141,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Dinas Pekerjaan Umum Rawa Keramat':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(204,42,53,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Dinas Pendidikan dan Kebudayaan Sekampung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(179,108,233,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Dinas Pendidikan Pemuda dan Olahraga':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(111,145,208,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Dinas Pendidikan Pemuda Dan Olahraga Sribhawono':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(49,110,201,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Dinas Pengairan Batanghari':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(203,118,216,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Dinas Pengairan dan Irigasi':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(69,207,28,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Dinas Pengairan Labuhanratu Danau':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(28,145,223,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Dinas Perikanan dan Kelautan Dempond Jabung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(107,222,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Dinas Peternakan Tanjungsari':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(213,87,175,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Dirlantas Daerah Lampung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(183,92,229,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Konservasi Gajah Waykambas':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(125,13,229,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Koordinator Pelaksana DPU Waycurup':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(218,117,59,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Koperasi Unit Desa Brajaharjosari':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(93,43,230,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Lembaga Pemberdayaan Masyarakat Tanjuntirto':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(206,39,83,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor PKK':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,92,89,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Polisi Sektor Batanghari':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(206,47,134,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Polisi Sektor Bumiagung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(240,195,89,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Polisi Sektor Gunungpelindung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(206,171,66,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Polisi Sektor Jabung Negarabatin':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(222,204,41,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Polisi Sektor Marbaumataram':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(202,133,48,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Polisi Sektor Marga Tiga':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(223,132,165,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Polisi Sektor Matarambaru':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(206,101,27,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Polisi Sektor Melinting':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(235,106,46,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Polisi Sektor Metrokibang':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(234,123,108,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Polisi Sektor Pasirsakti':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(102,209,113,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Polisi Sektor Pekalongan':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(194,223,136,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Polisi Sektor Sekampung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(147,219,31,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Polisi Sektor Sekampungudik':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(164,213,42,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Polisi Sektor Wawaykarya Sumberrejo':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(85,182,217,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Polisi Sektor Wayjepara Labuhanratu Dua':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(129,110,213,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Satlantas Unit Patroli Regu IV Matarambaru':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(217,50,206,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Satlantas Unit Patroli Regu Lima Labuhanratu':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(177,234,141,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Taman Nasional Waykambas':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(153,225,137,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor UPH Tanaman dan Buah':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(18,78,218,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor UPK PNPM Kecamatan Margasekampung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(195,219,88,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor UPTD Dinas Kelautan Dan Perikanan':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(118,203,192,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor UPTD Dinas Pendidikan Pemuda Dan Olahraga':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(109,80,216,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kantor Waykanan':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(224,187,119,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kejaksaan Negeri Sukadana':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(47,219,122,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kementerian Perhubungan Dirjen Hubla Unit Penyelenggaraan':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(229,99,227,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kodim 0411 Lampung Tengah':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(217,136,113,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kodim Jabung Negarabatin':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,226,51,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Koramil 411 12 Pekalongan':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(230,60,162,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Koramil 411 26 Pasirsakti':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(122,222,190,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Koramil 411-11 Purbolinggo':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(77,200,29,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Koramil Batanghari':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(123,226,26,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Koramil Metrokibang':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(232,35,124,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Koramil Sekampung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,99,226,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KUA Batanghari':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(240,102,212,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KUA Brajaharjosari':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(98,82,202,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KUA Bumiagung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,146,89,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KUA Jabung Negarabatin':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(233,138,185,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KUA Kecamatan Labuhanmaringgai':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(171,232,101,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KUA Kecamatan Sribhawono':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(215,193,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KUA Kecamatan Wawaykarya':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(70,208,105,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KUA Marga Tiga':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(86,239,86,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KUA Margasekampung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(50,158,204,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KUA Matarambaru':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(226,129,168,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KUA Metro Kibang':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(207,98,231,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KUA Pasirsakti':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(27,239,151,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KUA Pekalongan':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(33,229,43,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KUA Sekampung':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(98,39,200,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KUA Tamanfajar':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(202,115,129,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'KUA Wana':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(202,205,105,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Lembaga Pemasyarakatan Sukadana':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(199,48,213,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Pengadilan Negeri Lampung Timur':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(57,234,196,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Polres Lampung Timur':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(175,220,25,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Polsek Brajaselebah':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(226,88,210,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Polsek Labuhanratu':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,228,182,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Polsek Pasarsukadana':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(216,213,16,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Polsek Waybungur':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(56,212,215,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Samsat Lampung Timur':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(110,161,212,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'NULL':
+                    return {
+                pane: 'pane_PEMERINTAHAN_PT_50K_3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(23,197,220,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_PEMERINTAHAN_PT_50K_3');
+        map.getPane('pane_PEMERINTAHAN_PT_50K_3').style.zIndex = 403;
+        map.getPane('pane_PEMERINTAHAN_PT_50K_3').style['mix-blend-mode'] = 'normal';
+        var layer_PEMERINTAHAN_PT_50K_3 = new L.geoJson(json_PEMERINTAHAN_PT_50K_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PEMERINTAHAN_PT_50K_3',
+            layerName: 'layer_PEMERINTAHAN_PT_50K_3',
+            pane: 'pane_PEMERINTAHAN_PT_50K_3',
+            onEachFeature: pop_PEMERINTAHAN_PT_50K_3,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_PEMERINTAHAN_PT_50K_3_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_PEMERINTAHAN_PT_50K_3);
+        map.addLayer(layer_PEMERINTAHAN_PT_50K_3);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'PEMERINTAHAN_PT_50K<br /><table><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_AulaKantorBupatiLampungTimur0.png" /></td><td>Aula Kantor Bupati Lampung Timur</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_BalaiBenihIkanWayCurup1.png" /></td><td>Balai Benih Ikan Way Curup</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_BalaiNabangbaru2.png" /></td><td>Balai Nabangbaru</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_BalaiPenyuluhanPertanian3.png" /></td><td>Balai Penyuluhan Pertanian</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_BalaiSumbermarga4.png" /></td><td>Balai Sumbermarga</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_BappedaLampungTimur5.png" /></td><td>Bappeda Lampung Timur</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_BPNLampungTimur6.png" /></td><td>BPN Lampung Timur</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_BPSSukadanaIlir7.png" /></td><td>BPS Sukadana Ilir</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_DepartemenAgamaLampungTimur8.png" /></td><td>Departemen Agama Lampung Timur</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_GedungPKK9.png" /></td><td>Gedung PKK</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorBabinsaPurwosembodo10.png" /></td><td>Kantor Babinsa Purwosembodo</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorBadanLingkunganHidupMangroveCenter11.png" /></td><td>Kantor Badan Lingkungan Hidup Mangrove Center</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorBalaiPenyuluhanPertanian12.png" /></td><td>Kantor Balai Penyuluhan Pertanian</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorBP3KBatanghari13.png" /></td><td>Kantor BP3K Batanghari</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorBP3KBumiagung14.png" /></td><td>Kantor BP3K Bumiagung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorBP3KKaryabasuki15.png" /></td><td>Kantor BP3K Karyabasuki</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorBP3KKecamatanMatarambaru16.png" /></td><td>Kantor BP3K Kecamatan Matarambaru</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorBP3KMargatiga17.png" /></td><td>Kantor BP3K Margatiga</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorBP3KMetrokibang18.png" /></td><td>Kantor BP3K Metrokibang</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorBP3KSekampung19.png" /></td><td>Kantor BP3K Sekampung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorBP3KSekampungudik20.png" /></td><td>Kantor BP3K Sekampungudik</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorBPUMargatiga21.png" /></td><td>Kantor BPU Margatiga</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorBupatiLampungTimur22.png" /></td><td>Kantor Bupati Lampung Timur</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCabangDinasPendidikandasar23.png" /></td><td>Kantor Cabang Dinas Pendidikan dasar</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatBandarsribhawono24.png" /></td><td>Kantor Camat Bandarsribhawono</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatBatanghari25.png" /></td><td>Kantor Camat Batanghari</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatBatangharinuban26.png" /></td><td>Kantor Camat Batangharinuban</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatBrajaselebah27.png" /></td><td>Kantor Camat Brajaselebah</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatBumiagung28.png" /></td><td>Kantor Camat Bumiagung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatGunungpelindung29.png" /></td><td>Kantor Camat Gunungpelindung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatJabung30.png" /></td><td>Kantor Camat Jabung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatLabuhanmaringgai31.png" /></td><td>Kantor Camat Labuhanmaringgai</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatLabuhanratu32.png" /></td><td>Kantor Camat Labuhanratu</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatMargasekampung33.png" /></td><td>Kantor Camat Margasekampung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatMargatiga34.png" /></td><td>Kantor Camat Margatiga</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatMatarambaru35.png" /></td><td>Kantor Camat Matarambaru</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatMelinting36.png" /></td><td>Kantor Camat Melinting</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatMetrokibang37.png" /></td><td>Kantor Camat Metrokibang</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatPasirsakti38.png" /></td><td>Kantor Camat Pasirsakti</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatPekalongan39.png" /></td><td>Kantor Camat Pekalongan</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatPurbolinggo40.png" /></td><td>Kantor Camat Purbolinggo</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatRamanUtara41.png" /></td><td>Kantor Camat Raman Utara</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatSekampung42.png" /></td><td>Kantor Camat Sekampung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatSekampungudik43.png" /></td><td>Kantor Camat Sekampungudik</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatSukadana44.png" /></td><td>Kantor Camat Sukadana</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatWawaykarya45.png" /></td><td>Kantor Camat Wawaykarya</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatWaybungur46.png" /></td><td>Kantor Camat Waybungur</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorCamatWayjepara47.png" /></td><td>Kantor Camat Wayjepara</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorDepartemenPerhubungan48.png" /></td><td>Kantor Departemen Perhubungan</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorDewanPerwakilanRakyatDaerahLampungTimur49.png" /></td><td>Kantor Dewan Perwakilan Rakyat Daerah Lampung Timur</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorDinasPekerjaanUmum50.png" /></td><td>Kantor Dinas Pekerjaan Umum</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorDinasPekerjaanUmumRawaKeramat51.png" /></td><td>Kantor Dinas Pekerjaan Umum Rawa Keramat</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorDinasPendidikandanKebudayaanSekampung52.png" /></td><td>Kantor Dinas Pendidikan dan Kebudayaan Sekampung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorDinasPendidikanPemudadanOlahraga53.png" /></td><td>Kantor Dinas Pendidikan Pemuda dan Olahraga</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorDinasPendidikanPemudaDanOlahragaSribhawono54.png" /></td><td>Kantor Dinas Pendidikan Pemuda Dan Olahraga Sribhawono</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorDinasPengairanBatanghari55.png" /></td><td>Kantor Dinas Pengairan Batanghari</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorDinasPengairandanIrigasi56.png" /></td><td>Kantor Dinas Pengairan dan Irigasi</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorDinasPengairanLabuhanratuDanau57.png" /></td><td>Kantor Dinas Pengairan Labuhanratu Danau</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorDinasPerikanandanKelautanDempondJabung58.png" /></td><td>Kantor Dinas Perikanan dan Kelautan Dempond Jabung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorDinasPeternakanTanjungsari59.png" /></td><td>Kantor Dinas Peternakan Tanjungsari</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorDirlantasDaerahLampung60.png" /></td><td>Kantor Dirlantas Daerah Lampung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorKonservasiGajahWaykambas61.png" /></td><td>Kantor Konservasi Gajah Waykambas</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorKoordinatorPelaksanaDPUWaycurup62.png" /></td><td>Kantor Koordinator Pelaksana DPU Waycurup</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorKoperasiUnitDesaBrajaharjosari63.png" /></td><td>Kantor Koperasi Unit Desa Brajaharjosari</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorLembagaPemberdayaanMasyarakatTanjuntirto64.png" /></td><td>Kantor Lembaga Pemberdayaan Masyarakat Tanjuntirto</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorPKK65.png" /></td><td>Kantor PKK</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorPolisiSektorBatanghari66.png" /></td><td>Kantor Polisi Sektor Batanghari</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorPolisiSektorBumiagung67.png" /></td><td>Kantor Polisi Sektor Bumiagung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorPolisiSektorGunungpelindung68.png" /></td><td>Kantor Polisi Sektor Gunungpelindung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorPolisiSektorJabungNegarabatin69.png" /></td><td>Kantor Polisi Sektor Jabung Negarabatin</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorPolisiSektorMarbaumataram70.png" /></td><td>Kantor Polisi Sektor Marbaumataram</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorPolisiSektorMargaTiga71.png" /></td><td>Kantor Polisi Sektor Marga Tiga</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorPolisiSektorMatarambaru72.png" /></td><td>Kantor Polisi Sektor Matarambaru</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorPolisiSektorMelinting73.png" /></td><td>Kantor Polisi Sektor Melinting</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorPolisiSektorMetrokibang74.png" /></td><td>Kantor Polisi Sektor Metrokibang</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorPolisiSektorPasirsakti75.png" /></td><td>Kantor Polisi Sektor Pasirsakti</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorPolisiSektorPekalongan76.png" /></td><td>Kantor Polisi Sektor Pekalongan</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorPolisiSektorSekampung77.png" /></td><td>Kantor Polisi Sektor Sekampung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorPolisiSektorSekampungudik78.png" /></td><td>Kantor Polisi Sektor Sekampungudik</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorPolisiSektorWawaykaryaSumberrejo79.png" /></td><td>Kantor Polisi Sektor Wawaykarya Sumberrejo</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorPolisiSektorWayjeparaLabuhanratuDua80.png" /></td><td>Kantor Polisi Sektor Wayjepara Labuhanratu Dua</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorSatlantasUnitPatroliReguIVMatarambaru81.png" /></td><td>Kantor Satlantas Unit Patroli Regu IV Matarambaru</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorSatlantasUnitPatroliReguLimaLabuhanratu82.png" /></td><td>Kantor Satlantas Unit Patroli Regu Lima Labuhanratu</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorTamanNasionalWaykambas83.png" /></td><td>Kantor Taman Nasional Waykambas</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorUPHTanamandanBuah84.png" /></td><td>Kantor UPH Tanaman dan Buah</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorUPKPNPMKecamatanMargasekampung85.png" /></td><td>Kantor UPK PNPM Kecamatan Margasekampung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorUPTDDinasKelautanDanPerikanan86.png" /></td><td>Kantor UPTD Dinas Kelautan Dan Perikanan</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorUPTDDinasPendidikanPemudaDanOlahraga87.png" /></td><td>Kantor UPTD Dinas Pendidikan Pemuda Dan Olahraga</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KantorWaykanan88.png" /></td><td>Kantor Waykanan</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KejaksaanNegeriSukadana89.png" /></td><td>Kejaksaan Negeri Sukadana</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KementerianPerhubunganDirjenHublaUnitPenyelenggaraan90.png" /></td><td>Kementerian Perhubungan Dirjen Hubla Unit Penyelenggaraan</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_Kodim0411LampungTengah91.png" /></td><td>Kodim 0411 Lampung Tengah</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KodimJabungNegarabatin92.png" /></td><td>Kodim Jabung Negarabatin</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_Koramil41112Pekalongan93.png" /></td><td>Koramil 411 12 Pekalongan</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_Koramil41126Pasirsakti94.png" /></td><td>Koramil 411 26 Pasirsakti</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_Koramil41111Purbolinggo95.png" /></td><td>Koramil 411-11 Purbolinggo</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KoramilBatanghari96.png" /></td><td>Koramil Batanghari</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KoramilMetrokibang97.png" /></td><td>Koramil Metrokibang</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KoramilSekampung98.png" /></td><td>Koramil Sekampung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KUABatanghari99.png" /></td><td>KUA Batanghari</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KUABrajaharjosari100.png" /></td><td>KUA Brajaharjosari</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KUABumiagung101.png" /></td><td>KUA Bumiagung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KUAJabungNegarabatin102.png" /></td><td>KUA Jabung Negarabatin</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KUAKecamatanLabuhanmaringgai103.png" /></td><td>KUA Kecamatan Labuhanmaringgai</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KUAKecamatanSribhawono104.png" /></td><td>KUA Kecamatan Sribhawono</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KUAKecamatanWawaykarya105.png" /></td><td>KUA Kecamatan Wawaykarya</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KUAMargaTiga106.png" /></td><td>KUA Marga Tiga</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KUAMargasekampung107.png" /></td><td>KUA Margasekampung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KUAMatarambaru108.png" /></td><td>KUA Matarambaru</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KUAMetroKibang109.png" /></td><td>KUA Metro Kibang</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KUAPasirsakti110.png" /></td><td>KUA Pasirsakti</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KUAPekalongan111.png" /></td><td>KUA Pekalongan</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KUASekampung112.png" /></td><td>KUA Sekampung</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KUATamanfajar113.png" /></td><td>KUA Tamanfajar</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_KUAWana114.png" /></td><td>KUA Wana</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_LembagaPemasyarakatanSukadana115.png" /></td><td>Lembaga Pemasyarakatan Sukadana</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_PengadilanNegeriLampungTimur116.png" /></td><td>Pengadilan Negeri Lampung Timur</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_PolresLampungTimur117.png" /></td><td>Polres Lampung Timur</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_PolsekBrajaselebah118.png" /></td><td>Polsek Brajaselebah</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_PolsekLabuhanratu119.png" /></td><td>Polsek Labuhanratu</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_PolsekPasarsukadana120.png" /></td><td>Polsek Pasarsukadana</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_PolsekWaybungur121.png" /></td><td>Polsek Waybungur</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_SamsatLampungTimur122.png" /></td><td>Samsat Lampung Timur</td></tr><tr><td style="text-align: center;"><img src="legend/PEMERINTAHAN_PT_50K_3_123.png" /></td><td></td></tr></table>': layer_PEMERINTAHAN_PT_50K_3,'<img src="legend/JALAN_LN_50K_2.png" /> JALAN_LN_50K': layer_JALAN_LN_50K_2,'ADMINISTRASIKECAMATAN_AR_50K<br /><table><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_BANDARSRIBHAWONO0.png" /></td><td>BANDARSRIBHAWONO</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_BANDARSURABAYA1.png" /></td><td>BANDARSURABAYA</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_BATANGHARI2.png" /></td><td>BATANGHARI</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_BATANGHARINUBAN3.png" /></td><td>BATANGHARINUBAN</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_BRAJASELEBAH4.png" /></td><td>BRAJASELEBAH</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_BUMIAGUNG5.png" /></td><td>BUMIAGUNG</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_CANDIPURO6.png" /></td><td>CANDIPURO</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_DENTETELADAS7.png" /></td><td>DENTETELADAS</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_GUNUNGPELINDUNG8.png" /></td><td>GUNUNGPELINDUNG</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_JABUNG9.png" /></td><td>JABUNG</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_JATIAGUNG10.png" /></td><td>JATIAGUNG</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_KATIBUNG11.png" /></td><td>KATIBUNG</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_KOTAGAJAH12.png" /></td><td>KOTAGAJAH</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_LABUHANMARINGGAI13.png" /></td><td>LABUHANMARINGGAI</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_LABUHANRATU14.png" /></td><td>LABUHANRATU</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_MARGASEKAMPUNG15.png" /></td><td>MARGASEKAMPUNG</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_MARGATIGA16.png" /></td><td>MARGATIGA</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_MATARAMBARU17.png" /></td><td>MATARAMBARU</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_MELINTING18.png" /></td><td>MELINTING</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_MERBAUMATARAM19.png" /></td><td>MERBAUMATARAM</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_METROPUSAT20.png" /></td><td>METRO PUSAT</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_METROSELATAN21.png" /></td><td>METRO SELATAN</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_METROTIMUR22.png" /></td><td>METRO TIMUR</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_METROUTARA23.png" /></td><td>METRO UTARA</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_METROKIBANG24.png" /></td><td>METROKIBANG</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_NATAR25.png" /></td><td>NATAR</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_PALAS26.png" /></td><td>PALAS</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_PASIRSAKTI27.png" /></td><td>PASIRSAKTI</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_PEKALONGAN28.png" /></td><td>PEKALONGAN</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_PUNGGUR29.png" /></td><td>PUNGGUR</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_PURBOLINGGO30.png" /></td><td>PURBOLINGGO</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_PUTRARUMBIA31.png" /></td><td>PUTRARUMBIA</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_RAMANUTARA32.png" /></td><td>RAMAN UTARA</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_RUMBIA33.png" /></td><td>RUMBIA</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_SEKAMPUNG34.png" /></td><td>SEKAMPUNG</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_SEKAMPUNGUDIK35.png" /></td><td>SEKAMPUNGUDIK</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_SEPUTIHBANYAK36.png" /></td><td>SEPUTIHBANYAK</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_SEPUTIHRAMAN37.png" /></td><td>SEPUTIHRAMAN</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_SEPUTIHSURABAYA38.png" /></td><td>SEPUTIHSURABAYA</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_SRAGI39.png" /></td><td>SRAGI</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_SUKADANA40.png" /></td><td>SUKADANA</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_TANJUNGBINTANG41.png" /></td><td>TANJUNGBINTANG</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_TANJUNGSARI42.png" /></td><td>TANJUNGSARI</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_TEGINENENG43.png" /></td><td>TEGINENENG</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_TRIMURJO44.png" /></td><td>TRIMURJO</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_WAWAYKARYA45.png" /></td><td>WAWAYKARYA</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_WAYBUNGUR46.png" /></td><td>WAYBUNGUR</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_WAYJEPARA47.png" /></td><td>WAYJEPARA</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_WAYSULAN48.png" /></td><td>WAYSULAN</td></tr><tr><td style="text-align: center;"><img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1_49.png" /></td><td></td></tr></table>': layer_ADMINISTRASIKECAMATAN_AR_50K_1,"Google Satellite": layer_GoogleSatellite_0,}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_ADMINISTRASIKECAMATAN_AR_50K_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['NAMOBJ'] !== null?String('<div style="color: #000000; font-size: 13pt; font-weight: bold; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['NAMOBJ']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_ADMINISTRASIKECAMATAN_AR_50K_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var i = 0;
+        layer_PEMERINTAHAN_PT_50K_3.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['NAMOBJ'] !== null?String('<div style="color: #323232; font-size: 8pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['NAMOBJ']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_PEMERINTAHAN_PT_50K_3'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        map.addControl(new L.Control.Search({
+            layer: layer_ADMINISTRASIKECAMATAN_AR_50K_1,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'NAMOBJ'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        resetLabels([layer_ADMINISTRASIKECAMATAN_AR_50K_1,layer_PEMERINTAHAN_PT_50K_3]);
+        map.on("zoomend", function(){
+            resetLabels([layer_ADMINISTRASIKECAMATAN_AR_50K_1,layer_PEMERINTAHAN_PT_50K_3]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_ADMINISTRASIKECAMATAN_AR_50K_1,layer_PEMERINTAHAN_PT_50K_3]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_ADMINISTRASIKECAMATAN_AR_50K_1,layer_PEMERINTAHAN_PT_50K_3]);
+        });
+        </script>
+    </body>
+</html>
